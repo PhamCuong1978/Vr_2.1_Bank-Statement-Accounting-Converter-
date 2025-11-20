@@ -1,0 +1,7 @@
+{
+  "name": "Vr_2.1_Bank Statement Accounting Converter ",
+  "description": "An application to process bank statements into a standard accounting ledger format. Users can upload a statement file, provide an opening balance, and receive a formatted table ready for accounting software.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
