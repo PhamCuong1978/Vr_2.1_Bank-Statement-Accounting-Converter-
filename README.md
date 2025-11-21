@@ -36,7 +36,7 @@ Bạn có thể đưa ứng dụng này lên mạng một cách miễn phí và 
 4.  Vercel sẽ tự động nhận diện đây là một ứng dụng web tĩnh. Bạn không cần thay đổi bất kỳ cài đặt Build & Development nào. Chỉ cần giữ nguyên các thiết lập mặc định.
 5.  Mở mục **"Environment Variables"** (Biến môi trường).
 6.  Thêm một biến môi trường mới:
-    -   **Name**: `VITE_API_KEY`
+    -   **Name**: `API_KEY`
     -   **Value**: Dán khóa API Gemini của bạn vào đây.
 7.  Nhấn nút **"Deploy"**.
 
