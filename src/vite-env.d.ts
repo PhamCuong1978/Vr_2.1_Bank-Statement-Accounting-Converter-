@@ -1,7 +1,2 @@
-// Định nghĩa để TypeScript hiểu process.env.API_KEY
-declare namespace NodeJS {
-  interface ProcessEnv {
-    API_KEY: string;
-    [key: string]: string | undefined;
-  }
-}
+// reference types="vite/client" removed due to missing type definitions in environment
+export {};

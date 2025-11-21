@@ -1,15 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { GeminiResponse, AIChatResponse, ChatMessage, Transaction } from '../types';
 
-// Hàm helper để lấy instance của AI một cách an toàn.
-// Việc này ngăn chặn ứng dụng bị crash ngay khi khởi động (màn hình trắng) nếu API_KEY chưa được cấu hình.
-const getAI = () => {
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-        throw new Error("API_KEY chưa được thiết lập. Vui lòng kiểm tra cấu hình biến môi trường (Environment Variables) trên Vercel.");
-    }
-    return new GoogleGenAI({ apiKey: apiKey });
-};
+// Initialize GoogleGenAI with process.env.API_KEY as per strict guidelines.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const responseSchema = {
   type: Type.OBJECT,
@@ -65,7 +58,6 @@ QUY TẮC QUAN TRỌNG NHẤT: ĐỘ CHÍNH XÁC CỦA CÁC CON SỐ LÀ TRÊN H
 3.  **Định dạng đầu ra:** Chỉ trả về văn bản thô, không định dạng, không phân tích, không tóm tắt. Trả về chính xác từng ký tự bạn thấy trên hình ảnh theo đúng thứ tự.`;
 
     try {
-        const ai = getAI();
         const imageParts = content.images.map(img => ({
             inlineData: {
                 mimeType: img.mimeType,
@@ -138,7 +130,6 @@ export const processStatement = async (content: { text: string; }): Promise<Gemi
   `;
 
   try {
-    const ai = getAI();
     const modelRequest = {
       model: "gemini-2.5-pro",
       contents: prompt,
@@ -267,7 +258,6 @@ export const chatWithAI = async (
     }
 
     try {
-        const ai = getAI();
         const modelRequest = {
             model: "gemini-2.5-pro",
             contents: { parts: promptParts },
