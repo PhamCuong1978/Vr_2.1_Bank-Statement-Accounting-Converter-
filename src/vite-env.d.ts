@@ -1,2 +1,8 @@
-// reference types="vite/client" removed due to missing type definitions in environment
-export {};
+interface ImportMetaEnv {
+  readonly VITE_API_KEY: string;
+  [key: string]: any;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}

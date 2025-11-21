@@ -1,7 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { GeminiResponse, AIChatResponse, ChatMessage, Transaction } from '../types';
 
-// Initialize GoogleGenAI with process.env.API_KEY as per strict guidelines.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const responseSchema = {
@@ -66,7 +65,7 @@ QUY TẮC QUAN TRỌNG NHẤT: ĐỘ CHÍNH XÁC CỦA CÁC CON SỐ LÀ TRÊN H
         }));
 
         const modelRequest = {
-            model: "gemini-2.5-pro",
+            model: "gemini-3-pro-preview",
             contents: { parts: [{ text: prompt }, ...imageParts] },
             config: {
                 temperature: 0,
@@ -78,7 +77,7 @@ QUY TẮC QUAN TRỌNG NHẤT: ĐỘ CHÍNH XÁC CỦA CÁC CON SỐ LÀ TRÊN H
 
     } catch (error) {
         console.error("Error extracting text with Gemini OCR:", error);
-        throw error; // Ném lỗi ra để UI xử lý thay vì nuốt lỗi
+        throw error; 
     }
 }
 
@@ -131,7 +130,7 @@ export const processStatement = async (content: { text: string; }): Promise<Gemi
 
   try {
     const modelRequest = {
-      model: "gemini-2.5-pro",
+      model: "gemini-3-pro-preview",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -259,7 +258,7 @@ export const chatWithAI = async (
 
     try {
         const modelRequest = {
-            model: "gemini-2.5-pro",
+            model: "gemini-3-pro-preview",
             contents: { parts: promptParts },
             config: {
                 responseMimeType: "application/json",
