@@ -80,7 +80,7 @@ QUY TẮC QUAN TRỌNG NHẤT: ĐỘ CHÍNH XÁC CỦA CÁC CON SỐ LÀ TRÊN H
         };
 
         const response = await ai.models.generateContent(modelRequest);
-        return response.text.trim();
+        return (response.text || '').trim();
 
     } catch (error) {
         console.error("Error extracting text with Gemini OCR:", error);
@@ -148,7 +148,10 @@ export const processStatement = async (content: { text: string; }): Promise<Gemi
 
     const response = await ai.models.generateContent(modelRequest);
 
-    const jsonText = response.text.trim();
+    const jsonText = (response.text || '').trim();
+    if (!jsonText) {
+        throw new Error("AI không trả về kết quả nào.");
+    }
     return JSON.parse(jsonText) as GeminiResponse;
   } catch (error) {
     console.error("Error processing statement with Gemini:", error);
@@ -271,7 +274,12 @@ export const chatWithAI = async (
             },
         };
         const response = await ai.models.generateContent(modelRequest);
-        const jsonText = response.text.trim();
+        const jsonText = (response.text || '').trim();
+        
+        if (!jsonText) {
+             return { responseText: "Xin lỗi Anh Cường, Em không nhận được phản hồi từ máy chủ. Anh thử lại nhé.", action: 'query' };
+        }
+
         return JSON.parse(jsonText) as AIChatResponse;
     } catch (error) {
         console.error("Error chatting with AI:", error);
