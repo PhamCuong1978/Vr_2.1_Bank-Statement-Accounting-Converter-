@@ -1,14 +1,15 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import type { GeminiResponse, AIChatResponse, ChatMessage, Transaction } from '../types';
 
-const API_KEY = process.env.API_KEY;
-
-if (!API_KEY) {
-  throw new Error("API_KEY environment variable is not set.");
-}
-
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+// Hàm helper để lấy instance của AI một cách an toàn.
+// Việc này ngăn chặn ứng dụng bị crash ngay khi khởi động (màn hình trắng) nếu API_KEY chưa được cấu hình.
+const getAI = () => {
+    const apiKey = process.env.API_KEY;
+    if (!apiKey) {
+        throw new Error("API_KEY chưa được thiết lập. Vui lòng kiểm tra cấu hình biến môi trường (Environment Variables) trên Vercel.");
+    }
+    return new GoogleGenAI({ apiKey: apiKey });
+};
 
 const responseSchema = {
   type: Type.OBJECT,
@@ -64,6 +65,7 @@ QUY TẮC QUAN TRỌNG NHẤT: ĐỘ CHÍNH XÁC CỦA CÁC CON SỐ LÀ TRÊN H
 3.  **Định dạng đầu ra:** Chỉ trả về văn bản thô, không định dạng, không phân tích, không tóm tắt. Trả về chính xác từng ký tự bạn thấy trên hình ảnh theo đúng thứ tự.`;
 
     try {
+        const ai = getAI();
         const imageParts = content.images.map(img => ({
             inlineData: {
                 mimeType: img.mimeType,
@@ -84,7 +86,7 @@ QUY TẮC QUAN TRỌNG NHẤT: ĐỘ CHÍNH XÁC CỦA CÁC CON SỐ LÀ TRÊN H
 
     } catch (error) {
         console.error("Error extracting text with Gemini OCR:", error);
-        throw new Error("Không thể trích xuất văn bản từ file hình ảnh.");
+        throw error; // Ném lỗi ra để UI xử lý thay vì nuốt lỗi
     }
 }
 
@@ -136,6 +138,7 @@ export const processStatement = async (content: { text: string; }): Promise<Gemi
   `;
 
   try {
+    const ai = getAI();
     const modelRequest = {
       model: "gemini-2.5-pro",
       contents: prompt,
@@ -155,7 +158,7 @@ export const processStatement = async (content: { text: string; }): Promise<Gemi
     return JSON.parse(jsonText) as GeminiResponse;
   } catch (error) {
     console.error("Error processing statement with Gemini:", error);
-    throw new Error("Không thể xử lý sao kê. Vui lòng kiểm tra lại nội dung và thử lại.");
+    throw error;
   }
 };
 
@@ -264,6 +267,7 @@ export const chatWithAI = async (
     }
 
     try {
+        const ai = getAI();
         const modelRequest = {
             model: "gemini-2.5-pro",
             contents: { parts: promptParts },
