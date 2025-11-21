@@ -345,7 +345,10 @@ export default function App() {
                     </div>
 
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-                        <h2 className="text-2xl font-bold mb-4">Quy trình làm việc</h2>
+                        <h2 className="text-2xl font-bold mb-4 flex items-baseline">
+                            Quy trình làm việc
+                            <span className="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">Version 2.1</span>
+                        </h2>
                         <ul className="space-y-4 text-gray-600 dark:text-gray-400">
                             <li className="flex items-start">
                                 <span className="flex-shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-500 text-white font-bold text-sm mr-3">1</span>
