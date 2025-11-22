@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import type { GeminiResponse, AIChatResponse, ChatMessage, Transaction } from '../types';
 
@@ -74,7 +75,7 @@ QUY TẮC QUAN TRỌNG NHẤT: ĐỘ CHÍNH XÁC CỦA CÁC CON SỐ LÀ TRÊN H
         }));
 
         const modelRequest = {
-            model: "gemini-2.5-pro",
+            model: "gemini-2.5-flash", // Sử dụng Flash cho OCR vì nó xử lý hình ảnh nhanh và ổn định
             contents: { parts: [{ text: prompt }, ...imageParts] },
             config: {
                 temperature: 0,
@@ -140,7 +141,7 @@ export const processStatement = async (content: { text: string; }): Promise<Gemi
   try {
     const ai = getAI();
     const modelRequest = {
-      model: "gemini-2.5-pro",
+      model: "gemini-3-pro-preview", // Sử dụng Pro Preview cho các tác vụ suy luận phức tạp
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -269,7 +270,7 @@ export const chatWithAI = async (
     try {
         const ai = getAI();
         const modelRequest = {
-            model: "gemini-2.5-pro",
+            model: "gemini-3-pro-preview", // Dùng Pro Preview cho Chat để thông minh hơn
             contents: { parts: promptParts },
             config: {
                 responseMimeType: "application/json",

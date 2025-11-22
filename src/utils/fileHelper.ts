@@ -16,7 +16,7 @@ export const extractFromFile = async (file: File): Promise<{ text: string | null
                     
                     for (let i = 1; i <= pdf.numPages; i++) {
                         const page = await pdf.getPage(i);
-                        const viewport = page.getViewport({ scale: 10.0 }); // Increased scale dramatically for maximum OCR accuracy as per user request.
+                        const viewport = page.getViewport({ scale: 2.5 }); // Scale 2.5 is approx 180-200 DPI, optimal for OCR without overloading API limits.
                         const canvas = document.createElement('canvas');
                         const context = canvas.getContext('2d');
                         if (!context) throw new Error('Could not get canvas context');
